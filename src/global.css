@@ -1,0 +1,46 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+}
+
+:root {
+    --light-gray: #f0f0f1;
+    --dark-blue: #483D8B;
+    --text-black: #1f2729;
+    --text-white: #fff;
+}
+
+body {
+    background-color: var(--light-gray);
+}
+
+@media (max-width: 1080px) {
+    html {
+        font-size: 93.75%;
+    }
+}
+
+@media (max-width: 720px) {
+    html {
+        font-size: 87.5%;
+    }
+}
+
+body,
+input,
+textarea,
+select,
+button {
+    font: 400 1rem "Roboto", sans-serif;
+    -webkit-font-smoothing: antialiazed;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+}
