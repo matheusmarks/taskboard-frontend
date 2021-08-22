@@ -1,9 +1,13 @@
 import React from 'react';
+import { Header } from './components/Header';
+import { Board } from './components/Board';
+import './global.css';
 
 const App: React.FC = () => {
   return (
     <>
-      <h1>Taskboard</h1>
+      <Header />
+      <Board />
     </>
   );
 };
