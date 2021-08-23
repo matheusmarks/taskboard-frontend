@@ -1,8 +1,11 @@
 import styled from 'styled-components';
 
 export const BoardContent = styled.div`
-  width: auto;
+  width: 250px;
   height: fit-content;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
   background-color: var(--medium-gray);
 
   div > & {
@@ -12,6 +15,7 @@ export const BoardContent = styled.div`
   header {
     width: 100%;
     max-width: 370px;
+    word-wrap: break-word;
     background-color: var(--dark-blue);
     padding: 1rem;
 

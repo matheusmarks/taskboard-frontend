@@ -1,10 +1,7 @@
 import React from 'react';
 import { FiPlus, FiClock } from 'react-icons/fi';
+import { TaskProps } from '../../dtos/TaskProps';
 import { Content } from './styles';
-
-interface TaskProps {
-  isNewTask?: boolean;
-}
 
 export const Task: React.FC<TaskProps> = ({ isNewTask }) => {
   let taskElements;

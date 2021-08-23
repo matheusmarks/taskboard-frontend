@@ -5,20 +5,24 @@ export const BoardContainer = styled.div`
   height: 93vh;
   display: flex;
   padding: 3.125rem;
-  overflow: scroll;
+  overflow-x: auto;
 
   button {
     height: fit-content;
   }
 
   .createNewTaskGroup {
-    width: 25%;
+    width: 250px;
     height: 3rem;
+    flex-shrink: 0;
     color: var(--dark-blue);
     font-weight: bold;
   }
 
   .newTaskInput {
-    height: fit-content;
+    width: 250px;
+    height: 3rem;
+    flex-shrink: 0;
+    padding: 0.7rem;
   }
 `;
