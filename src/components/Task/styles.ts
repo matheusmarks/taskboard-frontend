@@ -13,6 +13,29 @@ export const Content = styled.main`
     margin-bottom: 0.5rem;
     font-weight: bold;
     padding: 0.5rem;
+
+    div {
+      width: fit-content;
+      border-radius: 0.2rem;
+      padding: 0.2rem;
+
+      span {
+        font-weight: 400;
+        font-size: 0.9rem;
+        margin-left: 0.3rem;
+
+        .fiClock {
+          width: 12px;
+          height: 12px;
+        }
+      }
+
+      input {
+        width: 0.75rem;
+        height: 0.75rem;
+        background-color: green;
+      }
+    }
   }
 
   .createNewCard {

@@ -2,13 +2,21 @@ import React from 'react';
 import { Task } from '../Task';
 import { BoardContent } from './styles';
 
-export const TaskGroup: React.FC = () => {
+interface TaskGroupProps {
+  taskGroupTitle: string;
+  isNewTask?: boolean;
+}
+
+export const TaskGroup: React.FC<TaskGroupProps> = ({
+  taskGroupTitle,
+  isNewTask,
+}) => {
   return (
     <BoardContent>
       <header className="taskGroupTitle">
-        <span className="spanTaskGroupTitle">Em Planejamento</span>
+        <span className="spanTaskGroupTitle">{taskGroupTitle}</span>
       </header>
-      <Task />
+      <Task isNewTask={isNewTask} />
     </BoardContent>
   );
 };

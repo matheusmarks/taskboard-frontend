@@ -17,4 +17,8 @@ export const BoardContainer = styled.div`
     color: var(--dark-blue);
     font-weight: bold;
   }
+
+  .newTaskInput {
+    height: fit-content;
+  }
 `;
