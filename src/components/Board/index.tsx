@@ -1,9 +1,11 @@
 import React from 'react';
-import { useEffect } from 'react';
 import { useState } from 'react';
 import { FiPlus } from 'react-icons/fi';
+import { v4 as uuid } from 'uuid';
 import { TaskGroupData } from '../../dtos/TaskGroupData';
+import { useTasks } from '../../hooks/useTaskProvider';
 import { api } from '../../services/api';
+import { Task } from '../Task';
 import { TaskGroup } from '../TaskGroup';
 import { BoardContainer } from './styles';
 
@@ -11,17 +13,23 @@ export const Board: React.FC = () => {
   const [taskGroup, setTaskGroup] = useState([<div />]);
   const [createNewTaskGroup, setCreateNewTaskGroup] = useState(false);
   const [showTaskGroupInput, setShowTaskGroupInput] = useState(<div />);
-  const [taskGroupData, setTaskGroupData] = useState<TaskGroupData[]>();
+  // const [taskGroupData, setTaskGroupData] = useState<TaskGroupData[]>();
+
+  const { tasks } = useTasks();
+
+  const taskItems: TaskGroupData[] = tasks.map(itemGroupTask => {
+    return itemGroupTask;
+  });
 
   // Return all the task groups from api
   // eslint-disable-next-line react-hooks/exhaustive-deps
 
-  useEffect(() => {
+  /* useEffect(() => {
     api.get('/taskGroup').then(response => {
       const taskGroups = response.data;
       setTaskGroupData(taskGroups);
     });
-  }, []);
+  }, []); */
 
   // eslint-disable-next-line
   async function handleKeyPress(event: any) {
@@ -30,14 +38,28 @@ export const Board: React.FC = () => {
       setCreateNewTaskGroup(false);
 
       const data: TaskGroupData = {
+        tasks: [],
         name: event.target.value,
       };
 
       await api.post('/taskGroup', data);
 
+      const elementKey = uuid();
+
       setTaskGroup([
         ...taskGroup,
-        <TaskGroup taskGroupTitle={event.target.value} isNewTask />,
+        <TaskGroup
+          taskGroupTitle={event.target.value}
+          isNewTask
+          taskGroupContent={tasks}
+        >
+          <Task
+            isNewTask
+            taskGroupTitle={event.target.value}
+            key={elementKey}
+            taskContent={[]}
+          />
+        </TaskGroup>,
       ]);
     }
   }
@@ -57,13 +79,21 @@ export const Board: React.FC = () => {
 
   return (
     <BoardContainer>
-      {taskGroupData?.map(taskGroupItem => {
+      {taskItems?.map(taskGroupItem => {
         return (
           <TaskGroup
             taskGroupTitle={taskGroupItem.name}
             isNewTask={false}
             key={taskGroupItem.id}
-          />
+            taskGroupContent={tasks}
+          >
+            <Task
+              taskContent={taskGroupItem.tasks}
+              isNewTask={false}
+              key={taskGroupItem.id}
+              taskGroupTitle={taskGroupItem.name}
+            />
+          </TaskGroup>
         );
       })}
       {taskGroup}
