@@ -12,17 +12,19 @@ export const BoardContent = styled.div`
     margin-right: 3.125rem;
   }
 
-  header {
+  .taskGroupTitle {
     width: 100%;
     max-width: 370px;
     word-wrap: break-word;
     background-color: var(--dark-blue);
     padding: 1rem;
+    border: none;
 
     span {
       color: var(--text-white);
       font-weight: 500;
       font-size: 1.1rem;
+      text-align: left;
     }
   }
 `;

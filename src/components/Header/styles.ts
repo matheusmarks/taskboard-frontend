@@ -25,4 +25,11 @@ export const Container = styled.div`
     padding: 0.3rem;
     background: ${shade(0.1, '#f0f0f1')};
   }
+
+  .newTaskInput {
+    width: 250px;
+    height: 3rem;
+    flex-shrink: 0;
+    padding: 0.7rem;
+  }
 `;

@@ -13,23 +13,12 @@ export const Board: React.FC = () => {
   const [taskGroup, setTaskGroup] = useState([<div />]);
   const [createNewTaskGroup, setCreateNewTaskGroup] = useState(false);
   const [showTaskGroupInput, setShowTaskGroupInput] = useState(<div />);
-  // const [taskGroupData, setTaskGroupData] = useState<TaskGroupData[]>();
 
   const { tasks } = useTasks();
 
   const taskItems: TaskGroupData[] = tasks.map(itemGroupTask => {
     return itemGroupTask;
   });
-
-  // Return all the task groups from api
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-
-  /* useEffect(() => {
-    api.get('/taskGroup').then(response => {
-      const taskGroups = response.data;
-      setTaskGroupData(taskGroups);
-    });
-  }, []); */
 
   // eslint-disable-next-line
   async function handleKeyPress(event: any) {
@@ -84,13 +73,13 @@ export const Board: React.FC = () => {
           <TaskGroup
             taskGroupTitle={taskGroupItem.name}
             isNewTask={false}
-            key={taskGroupItem.id}
+            key={taskGroupItem.task_group_id}
             taskGroupContent={tasks}
           >
             <Task
               taskContent={taskGroupItem.tasks}
               isNewTask={false}
-              key={taskGroupItem.id}
+              key={taskGroupItem.task_group_id}
               taskGroupTitle={taskGroupItem.name}
             />
           </TaskGroup>

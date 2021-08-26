@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState } from 'react';
 import { useCallback } from 'react';
-import { FiPlus, FiClock } from 'react-icons/fi';
+import { FiPlus, FiClock, FiX } from 'react-icons/fi';
 import moment from 'moment';
 import { TaskProps } from '../../dtos/TaskProps';
 import { TaskModal } from '../Modal';
 import { Content } from './styles';
-import { useTasks } from '../../hooks/useTaskProvider';
+import { TaskData } from '../../dtos/TaskData';
+import { api } from '../../services/api';
 
 export const Task: React.FC<TaskProps> = ({
   isNewTask,
@@ -15,8 +16,6 @@ export const Task: React.FC<TaskProps> = ({
 }) => {
   const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] =
     useState(false);
-
-  const { data } = useTasks();
 
   const handleNewOpenTransactionModal = useCallback(() => {
     setIsNewTransactionModalOpen(true);
@@ -30,19 +29,39 @@ export const Task: React.FC<TaskProps> = ({
     handleNewOpenTransactionModal();
   }
 
+  const [taskName, setTaskName] = useState('');
+  const [taskDate, setTaskDate] = useState('');
+  const [newTaskData, setNewTaskData] = useState<TaskData>();
+
+  async function saveTask(): Promise<TaskData> {
+    const convertedDate = new Date(taskDate);
+
+    const data: TaskData = {
+      name: taskName,
+      group_name: taskGroupTitle,
+      conclusionDate: convertedDate,
+      id: '',
+    };
+
+    await api.post('/task', data);
+    setIsNewTransactionModalOpen(false);
+    setNewTaskData(data);
+    return data;
+  }
+
   let taskElements;
   let newTaskElement;
 
-  if (data !== undefined) {
+  if (newTaskData !== undefined) {
     newTaskElement = (
-      <button type="button" key={data.id}>
-        <p>{data.name}</p>
+      <button type="button" key={newTaskData.id}>
+        <p>{newTaskData.name}</p>
         <div>
           <input type="checkbox" className="test" />
           <span>
             <FiClock className="fiClock" />
           </span>
-          <span>{moment(data.conclusionDate).format('DD/MM/yyyy')}</span>
+          <span>{moment(newTaskData.conclusionDate).format('DD/MM/yyyy')}</span>
         </div>
       </button>
     );
@@ -51,7 +70,6 @@ export const Task: React.FC<TaskProps> = ({
   if (isNewTask === true) {
     taskElements = (
       <>
-        {newTaskElement}
         <button
           type="button"
           className="createNewCard"
@@ -86,6 +104,7 @@ export const Task: React.FC<TaskProps> = ({
             </button>
           );
         })}
+        {newTaskElement}
         <button
           type="button"
           className="createNewCard"
@@ -100,7 +119,30 @@ export const Task: React.FC<TaskProps> = ({
           isOpen={isNewTransactionModalOpen}
           onRequestClose={handleCloseTransactionModal}
           taskGroupTitle={taskGroupTitle}
-        />
+        >
+          <button
+            type="button"
+            onClick={handleCloseTransactionModal}
+            className="react-modal-close"
+          >
+            <FiX />
+          </button>
+          <p>Descrição da Atividade</p>
+          <input
+            type="text"
+            value={taskName}
+            onChange={event => setTaskName(event.target.value)}
+          />
+          <p>Data de Entrega</p>
+          <input
+            type="date"
+            value={taskDate}
+            onChange={event => setTaskDate(event.target.value)}
+          />
+          <button type="submit" onClick={saveTask}>
+            Salvar
+          </button>
+        </TaskModal>
       </>
     );
   }

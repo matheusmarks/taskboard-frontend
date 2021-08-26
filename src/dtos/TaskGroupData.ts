@@ -1,7 +1,7 @@
 import { TaskData } from './TaskData';
 
 export interface TaskGroupData {
-  id?: string;
+  task_group_id?: string;
   name: string;
   tasks: TaskData[];
 }
