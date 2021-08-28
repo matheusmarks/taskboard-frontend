@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-indent */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React from 'react';
 import Modal from 'react-modal';
 import { ModalContent } from './styles';

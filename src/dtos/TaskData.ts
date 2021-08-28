@@ -1,5 +1,5 @@
 export interface TaskData {
-  id: string;
+  task_id: string;
   name: string;
   conclusionDate: Date;
   group_name: string;

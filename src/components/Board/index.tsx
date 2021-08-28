@@ -20,7 +20,6 @@ export const Board: React.FC = () => {
     return itemGroupTask;
   });
 
-  // eslint-disable-next-line
   async function handleKeyPress(event: any) {
     if (event.key === 'Enter') {
       setShowTaskGroupInput(<div />);

@@ -7,7 +7,7 @@ import { TaskData } from './dtos/TaskData';
 
 const App: React.FC = () => {
   const initialTaskData: TaskData = {
-    id: '',
+    task_id: '',
     name: '',
     conclusionDate: new Date(),
     group_name: '',

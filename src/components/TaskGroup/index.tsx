@@ -24,7 +24,6 @@ export const TaskGroup: React.FC<TaskGroupProps> = ({
   async function handleKeyPress(event: any) {
     if (event.key === 'Enter') {
       setShowInputInTaskGroupHeader(<div />);
-      // setUpdateNewTaskGroup(false);
       const data: UpdateTaskGroupData = {
         name: event.target.value,
       };
