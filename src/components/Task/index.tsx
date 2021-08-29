@@ -31,9 +31,9 @@ export const Task: React.FC<TaskProps> = ({
   }, []);
 
   // Triggers the open modal function
-  function handleCreateNewTask() {
+  const handleCreateNewTask = useCallback(() => {
     handleNewOpenTransactionModal();
-  }
+  }, [handleNewOpenTransactionModal]);
 
   // Save or update a task
   async function saveTask(): Promise<TaskData> {
@@ -47,8 +47,9 @@ export const Task: React.FC<TaskProps> = ({
     };
 
     if (updateExistentTask === false) {
-      await api.post('/task', data);
+      const a = await api.post('/task', data);
       setIsNewTransactionModalOpen(false);
+      data.task_id = a.data.task_id;
       setNewTaskData(data);
     } else {
       let selectedTask: TaskData[] = [];
@@ -61,7 +62,11 @@ export const Task: React.FC<TaskProps> = ({
         const taskItem = selectedTask.find(item => item.task_id === taskId);
         await api.put(`/task/${taskItem?.task_id}`, data);
         setIsNewTransactionModalOpen(false);
-        setNewTaskData(data);
+        // setNewTaskData(data);
+        const paragraphTaskElement = document.getElementById(`${taskId}p`)!;
+        const spanTaskElement = document.getElementById(`${taskId}span`)!;
+        paragraphTaskElement.innerHTML = data.name;
+        spanTaskElement.innerHTML = taskDate;
       }
     }
 
@@ -90,9 +95,18 @@ export const Task: React.FC<TaskProps> = ({
       setTaskId(newTaskData.task_id);
       const date = convertDate(newTaskData.conclusionDate);
       return (
-        <button type="button" key={newTaskData.task_id}>
-          <p>{newTaskData.name}</p>
+        <button
+          type="button"
+          key={newTaskData.task_id}
+          id={`${newTaskData.task_id}button`}
+          onClick={() => {
+            setUpdateExistentTask(true);
+            handleCreateNewTask();
+          }}
+        >
+          <p id={`${newTaskData.task_id}p`}>{newTaskData.name}</p>
           <DateComponent
+            id={newTaskData.task_id}
             activeColor={date.expiredDate ? 'red' : 'transparent'}
             isActive
           >
@@ -101,12 +115,14 @@ export const Task: React.FC<TaskProps> = ({
                 <input
                   type="checkbox"
                   className="test"
-                  onClick={handleCloseTransactionModal}
+                  onChange={event => setTaskName(event.target.value)}
                 />
                 <span>
                   <FiClock className="fiClock" />
                 </span>
-                <span>{date.convertedDate}</span>
+                <span id={`${newTaskData.task_id}span`}>
+                  {date.convertedDate}
+                </span>
               </>
             ) : (
               ''
@@ -116,7 +132,7 @@ export const Task: React.FC<TaskProps> = ({
       );
     }
     return <div />;
-  }, [newTaskData, handleCloseTransactionModal]);
+  }, [newTaskData, handleCreateNewTask]);
 
   if (isNewTask === true) {
     taskElements = (
@@ -171,13 +187,14 @@ export const Task: React.FC<TaskProps> = ({
             <button
               type="button"
               key={item.task_id}
+              id={`${item.task_id}button`}
               onClick={() => {
                 setTaskId(item.task_id);
                 setUpdateExistentTask(true);
                 handleCreateNewTask();
               }}
             >
-              <p>{item.name}</p>
+              <p id={`${item.task_id}p`}>{item.name}</p>
               <DateComponent
                 id={item.task_id}
                 activeColor={date.expiredDate ? 'red' : 'transparent'}
@@ -197,7 +214,7 @@ export const Task: React.FC<TaskProps> = ({
                     <span>
                       <FiClock className="fiClock" />
                     </span>
-                    <span>{date.convertedDate}</span>
+                    <span id={`${item.task_id}span`}>{date.convertedDate}</span>
                   </>
                 ) : (
                   ''
