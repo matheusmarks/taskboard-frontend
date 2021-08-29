@@ -62,11 +62,6 @@ export const Task: React.FC<TaskProps> = ({
         const taskItem = selectedTask.find(item => item.task_id === taskId);
         await api.put(`/task/${taskItem?.task_id}`, data);
         setIsNewTransactionModalOpen(false);
-        // setNewTaskData(data);
-        const paragraphTaskElement = document.getElementById(`${taskId}p`)!;
-        const spanTaskElement = document.getElementById(`${taskId}span`)!;
-        paragraphTaskElement.innerHTML = data.name;
-        spanTaskElement.innerHTML = taskDate;
       }
     }
 
@@ -94,6 +89,7 @@ export const Task: React.FC<TaskProps> = ({
     if (newTaskData !== undefined) {
       setTaskId(newTaskData.task_id);
       const date = convertDate(newTaskData.conclusionDate);
+      setTaskDate(date.convertedDate);
       return (
         <button
           type="button"
