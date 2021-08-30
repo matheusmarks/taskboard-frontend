@@ -1,5 +1,4 @@
 <h1 align="center">Taskboard</h1>
-<h4 align="center">Em desenvolvimento ... 🔨🛠🚧🚧</h4>
 
 
 <p align="center">
@@ -13,6 +12,10 @@
  <a href="#Tecnologias">Tecnologias</a> • 
  <a href="#usabilidade">Usabilidade</a> • 
   <a href="#licença">Licença</a> • 
+</p>
+
+<p align="center">
+  <img alt="taskboard" src="https://github.com/matheusmarks/images/blob/master/taskboard/taskboardScreenshot.png" />
 </p>
 
 <h3>Tecnologias</h3>
