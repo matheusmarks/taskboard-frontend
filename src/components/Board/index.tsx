@@ -9,7 +9,7 @@ import { Task } from '../Task';
 import { TaskGroup } from '../TaskGroup';
 import { BoardContainer } from './styles';
 
-export const Board: React.FC = () => {
+const Board: React.FC = () => {
   const [taskGroup, setTaskGroup] = useState([<div />]);
   const [createNewTaskGroup, setCreateNewTaskGroup] = useState(false);
   const [showTaskGroupInput, setShowTaskGroupInput] = useState(<div />);
@@ -100,3 +100,5 @@ export const Board: React.FC = () => {
     </BoardContainer>
   );
 };
+
+export { Board };

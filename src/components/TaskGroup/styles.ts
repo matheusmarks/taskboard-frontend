@@ -8,6 +8,11 @@ export const BoardContent = styled.div`
   flex-shrink: 0;
   background-color: var(--medium-gray);
 
+  .droppableDiv {
+    width: 100%;
+    background-color: transparent;
+  }
+
   div > & {
     margin-right: 3.125rem;
   }

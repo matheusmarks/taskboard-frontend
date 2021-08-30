@@ -15,7 +15,6 @@ const colors = {
 export const Content = styled.main`
   display: flex;
   flex-direction: column;
-  max-width: 370px;
   padding: 1rem;
 
   button {
@@ -24,6 +23,7 @@ export const Content = styled.main`
     text-align: left;
     margin-bottom: 0.5rem;
     font-weight: bold;
+    width: 100%;
     padding: 0.5rem;
   }
 

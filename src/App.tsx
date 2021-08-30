@@ -1,4 +1,5 @@
 import React from 'react';
+import { DragDropContext } from 'react-beautiful-dnd';
 import { Header } from './components/Header';
 import { Board } from './components/Board';
 import './global.css';
@@ -15,10 +16,12 @@ const App: React.FC = () => {
 
   return (
     <>
-      <TaskProvider data={initialTaskData}>
-        <Header />
-        <Board />
-      </TaskProvider>
+      <DragDropContext onDragEnd={() => {}}>
+        <TaskProvider data={initialTaskData}>
+          <Header />
+          <Board />
+        </TaskProvider>
+      </DragDropContext>
     </>
   );
 };

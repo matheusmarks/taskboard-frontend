@@ -1,7 +1,8 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useState, useRef } from 'react';
 import { useCallback } from 'react';
 import { FiPlus, FiClock, FiX } from 'react-icons/fi';
 import { useMemo } from 'react';
+import { Draggable } from 'react-beautiful-dnd';
 import { TaskProps } from '../../dtos/TaskProps';
 import { TaskModal } from '../Modal';
 import { Content, DateComponent } from './styles';
@@ -180,43 +181,61 @@ export const Task: React.FC<TaskProps> = ({
         {taskContent.map(item => {
           const date = convertDate(item.conclusionDate);
           return (
-            <button
-              type="button"
-              key={item.task_id}
-              id={`${item.task_id}button`}
-              onClick={() => {
-                setTaskId(item.task_id);
-                setUpdateExistentTask(true);
-                handleCreateNewTask();
+            <Draggable key={item.task_id} draggableId={item.task_id} index={0}>
+              {(provided, snapshot) => {
+                return (
+                  <div
+                    {...provided.draggableProps}
+                    ref={provided.innerRef}
+                    {...provided.dragHandleProps}
+                  >
+                    <button
+                      type="button"
+                      key={item.task_id}
+                      id={`${item.task_id}button`}
+                      onClick={() => {
+                        setTaskId(item.task_id);
+                        setUpdateExistentTask(true);
+                        handleCreateNewTask();
+                      }}
+                    >
+                      <p id={`${item.task_id}p`}>{item.name}</p>
+                      <DateComponent
+                        id={item.task_id}
+                        activeColor={date.expiredDate ? 'red' : 'transparent'}
+                        isActive
+                      >
+                        {date.convertedDate !== '' ? (
+                          <>
+                            <input
+                              type="checkbox"
+                              className="test"
+                              onClick={
+                                event =>
+                                  handleDate(
+                                    event,
+                                    item.task_id,
+                                    date.expiredDate,
+                                  )
+                                // eslint-disable-next-line react/jsx-curly-newline
+                              }
+                            />
+                            <span>
+                              <FiClock className="fiClock" />
+                            </span>
+                            <span id={`${item.task_id}span`}>
+                              {date.convertedDate}
+                            </span>
+                          </>
+                        ) : (
+                          ''
+                        )}
+                      </DateComponent>
+                    </button>
+                  </div>
+                );
               }}
-            >
-              <p id={`${item.task_id}p`}>{item.name}</p>
-              <DateComponent
-                id={item.task_id}
-                activeColor={date.expiredDate ? 'red' : 'transparent'}
-                isActive
-              >
-                {date.convertedDate !== '' ? (
-                  <>
-                    <input
-                      type="checkbox"
-                      className="test"
-                      onClick={
-                        event =>
-                          handleDate(event, item.task_id, date.expiredDate)
-                        // eslint-disable-next-line react/jsx-curly-newline
-                      }
-                    />
-                    <span>
-                      <FiClock className="fiClock" />
-                    </span>
-                    <span id={`${item.task_id}span`}>{date.convertedDate}</span>
-                  </>
-                ) : (
-                  ''
-                )}
-              </DateComponent>
-            </button>
+            </Draggable>
           );
         })}
         {newTaskElement}

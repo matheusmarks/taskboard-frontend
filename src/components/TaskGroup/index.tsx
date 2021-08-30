@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Droppable } from 'react-beautiful-dnd';
 import { TaskGroupData } from '../../dtos/TaskGroupData';
 import { TaskGroupProps } from '../../dtos/TaskGroupProps';
 import { api } from '../../services/api';
@@ -72,15 +73,27 @@ export const TaskGroup: React.FC<TaskGroupProps> = ({
     <BoardContent>
       {showInputInTaskGroupHeader}
       {showUpdatedNewTaskGroupTitle}
-      <button
-        className="taskGroupTitle"
-        hidden={showTaskGroupHeader}
-        type="button"
-        onClick={handleUpdateTaskGroupTitle}
-      >
-        <span className="spanTaskGroupTitle">{taskGroupTitle}</span>
-      </button>
-      {children}
+      <Droppable droppableId={taskGroupTitle} key={taskGroupTitle}>
+        {(provided, snapshot) => {
+          return (
+            <div
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+              className="droppableDiv"
+            >
+              <button
+                className="taskGroupTitle"
+                hidden={showTaskGroupHeader}
+                type="button"
+                onClick={handleUpdateTaskGroupTitle}
+              >
+                <span className="spanTaskGroupTitle">{taskGroupTitle}</span>
+              </button>
+              {children}
+            </div>
+          );
+        }}
+      </Droppable>
     </BoardContent>
   );
 };
